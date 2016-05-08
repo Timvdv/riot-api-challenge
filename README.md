@@ -5,7 +5,7 @@ Build for Riot API Challenge May 2016
 
 ### Visit:
 
-URL TO LIVE WEBSITE HERE!
+http://timvandevathorst.nl/red-vs-blue/
 
 ### Or install it locally
 
