@@ -12,5 +12,6 @@ http://timvandevathorst.nl/red-vs-blue/
 ```
 npm install
 npm start
+Enter your own API key in api.php
 open http://localhost:3000
 ```
