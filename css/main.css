@@ -1,0 +1,97 @@
+body
+{
+    padding: 0;
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.summoner-name
+{
+    position: absolute;
+    width: 100%;
+    margin: 0 auto;
+    z-index:9999;
+    top:50px;
+}
+
+.summoner-name h1
+{
+    text-align: center;
+    width:100%;
+    color:white;
+    font-weight: 100;
+}
+
+.summoner-name input
+{
+    padding: 10px 20px;
+    position: absolute;
+    left: 50vw;
+    margin-left: -120px;
+    width: 200px;
+}
+
+.Chart
+{
+    width: 100vw;
+    position: relative;
+}
+
+
+.red, .blue
+{
+    display: inline-block;
+    width: 50vw;
+    height: 100vh;
+    transition: .3s all ease-in-out;
+    position: relative;
+}
+
+.red p, .blue p
+{
+    position: absolute;
+    text-align: center;
+    font-weight: 100;
+    color: white;
+    width: 100%;
+}
+
+.red
+{
+    background-color: #e74c3c;
+}
+
+.blue
+{
+    background-color: #3498db;
+}
+
+.match-history
+{
+    width: 100%;
+    text-align: center;
+    color:white;
+    font-weight:100;
+}
+
+.tweet-your-team
+{
+    width: 290px;
+    left: 50%;
+    margin-left: -145px;
+    height: 30px;
+    top:210px;
+    position: absolute;
+    z-index:9999;
+}
+
+.tweet-your-team a
+{
+    display: inline-block;
+}
+
+.tweet-your-team iframe
+{
+    border: 1px solid #268BCA;
+    border-radius: 5px;
+}
