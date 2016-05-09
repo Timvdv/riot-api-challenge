@@ -30,6 +30,7 @@ Webpack to run a local server based on NodeJS
 
 ```
 Download the project and cd into the folder
+mkdir node_modules
 npm install
 npm start
 open http://localhost:3000
