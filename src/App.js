@@ -41,6 +41,7 @@ export default class App extends Component {
         this.region = "euw"
         this.summoner_info = {};
         this.timeout = null;
+        this.state_timeout = null;
         this.old_str = "";
         this.old_match_history = 0;
 
@@ -111,6 +112,8 @@ export default class App extends Component {
         {
             var i=0;
 
+            $('.spinner').removeClass('hide');
+
             if(data.totalGames)
             {
                 data.matches.forEach(function (value) {
@@ -143,6 +146,7 @@ export default class App extends Component {
             }
 
             this.updateGraphData(data, participant_id, team_id);
+
             this.updateState();
 
         }.bind(this));
@@ -190,24 +194,38 @@ export default class App extends Component {
     }
     updateState()
     {
-        this.setState({team:
-        {
-            red: {
-                score: this.state.team.red.score,
-                data: this.state.team.red.data
-            },
-            blue: {
-                score: this.state.team.blue.score,
-                data: this.state.team.blue.data
-            }
-        }
-        });
+        //Make sure that we only search the summoner name when the timeout is done
+        if(this.state_timeout)
+            clearTimeout(this.state_timeout);
+
+        this.state_timeout = setTimeout(function () {
+                this.setState({team:
+                    {
+                        red: {
+                            score: this.state.team.red.score,
+                            data: this.state.team.red.data
+                        },
+                        blue: {
+                            score: this.state.team.blue.score,
+                            data: this.state.team.blue.data
+                        }
+                    }
+                });
+
+                //Hide the loader
+                $('.spinner').addClass('hide');
+
+        }.bind(this), 2000);        
     }
     render() {
         return (
             <div className="App">
                 <Input onKeyUp={this.handleSummonerName.bind(null, this.state.team)} team={this.state.team} error={this.state.error} matches={this.state.match_history}/>
-
+                <div className="spinner hide">
+                  <div className="bounce1"></div>
+                  <div className="bounce2"></div>
+                  <div className="bounce3"></div>                    
+                </div>
                 <Data
                   team={this.state.team}
                   domain={this.state.domain} />

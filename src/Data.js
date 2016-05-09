@@ -108,7 +108,7 @@ function update(el, state)
         var scales = calcScales(el, state.domain);
         destroy(el);
         drawPoints(el, scales, state.data);
-    }, 1500);
+    }, 500);
 }
 
 function destroy(el) {
