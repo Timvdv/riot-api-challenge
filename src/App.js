@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import Data from './Data';
 import Input from './Input';
 
-var match_history = 4,
-       api_url = "http://riot-api-challenge:8888/api.php"
+//If you're on a php env change this to your own API endpoint
+var match_history = 10,
+       api_url = "http://timvandevathorst.nl/red-vs-blue/api.php"
 
 export default class App extends Component {
     constructor(props)
@@ -22,6 +23,7 @@ export default class App extends Component {
 
         this.state = {
             domain:{x: [0, 30], y: [0, 100]},
+            match_history:  match_history,
             error: [],
             team: {
                 red: {
@@ -36,9 +38,11 @@ export default class App extends Component {
         };
 
         this.summoner_name = "";
+        this.region = "euw"
         this.summoner_info = {};
         this.timeout = null;
         this.old_str = "";
+        this.old_match_history = 0;
 
         this.handleSummonerName = this.handleSummonerName.bind(this);
         this.getSummonerId = this.getSummonerId.bind(this);
@@ -54,11 +58,14 @@ export default class App extends Component {
 
         //NO SPACES IN SUMMONER NAME!
         this.summoner_name = $('input').val().split(' ').join('').toLocaleLowerCase();
+        this.region = $("#region").val();
+        this.state.match_history = $("#matches").val();
 
         //Dont listen when nothing changed
-        if(this.old_str == this.summoner_name)
+        if(this.old_str == this.summoner_name && this.old_match_history == this.state.match_history)
             return;
 
+        this.old_match_history = this.state.match_history;
         this.old_str = this.summoner_name;
 
         //Make sure that we only search the summoner name when the timeout is done
@@ -71,7 +78,7 @@ export default class App extends Component {
     }
     getSummonerId()
     {
-        $.get(api_url + '?summoner='+this.summoner_name, function (data)
+        $.get(api_url + '?region='+this.region+'&summoner='+this.summoner_name, function (data)
         {
             this.state.team.red.score = 0;
             this.state.team.blue.score = 0;
@@ -94,30 +101,33 @@ export default class App extends Component {
             }
             else
             {
-                this.state.error.push('Cant find summoner name');
+                this.setState({error: ['Cant find summoner name']});
             }
         }.bind(this))
     }
     getSummonerMatches(id)
     {
-        $.get(api_url + '?summoner_id='+id, function (data)
+        $.get(api_url + '?region='+this.region+'&summoner_id='+id, function (data)
         {
             var i=0;
 
-            data.matches.forEach(function (value) {
+            if(data.totalGames)
+            {
+                data.matches.forEach(function (value) {
 
-                if(i<match_history)
-                {
-                    this.getMatchDetails(value.matchId)
-                }
+                    if(i<this.state.match_history)
+                    {
+                        this.getMatchDetails(value.matchId)
+                    }
 
-                i++;
-            }.bind(this));
+                    i++;
+                }.bind(this));                                
+            }
         }.bind(this));
     }
     getMatchDetails(id)
     {
-        $.get(api_url + '?match_id='+id, function (data)
+        $.get(api_url + '?region='+this.region+'&match_id='+id, function (data)
         {
             let participant_id = this.getParticipant(data),
                 team_id = this.getTeamId(data, participant_id);
@@ -196,7 +206,7 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <Input onKeyUp={this.handleSummonerName.bind(null, this.state.team)} team={this.state.team} error={this.state.error} matches={match_history}/>
+                <Input onKeyUp={this.handleSummonerName.bind(null, this.state.team)} team={this.state.team} error={this.state.error} matches={this.state.match_history}/>
 
                 <Data
                   team={this.state.team}

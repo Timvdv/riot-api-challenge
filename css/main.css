@@ -22,13 +22,27 @@ body
     font-weight: 100;
 }
 
-.summoner-name input
+.summoner-name .input-group
 {
-    padding: 10px 20px;
+
     position: absolute;
     left: 50vw;
     margin-left: -120px;
     width: 200px;
+}
+
+.summoner-name input
+{
+    padding: 10px 20px;
+    width: 200px;
+}
+
+.summoner-name .input-group select
+{
+    margin-left: 0;
+    position: absolute;
+    right: -30px;
+    top: 10px;
 }
 
 .Chart
@@ -36,7 +50,6 @@ body
     width: 100vw;
     position: relative;
 }
-
 
 .red, .blue
 {
@@ -94,4 +107,20 @@ body
 {
     border: 1px solid #268BCA;
     border-radius: 5px;
+}
+
+#matches
+{
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.error
+{
+    display: block;
+}
+
+.tweet-your-team.movedown
+{
+    top:255px
 }

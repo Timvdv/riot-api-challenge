@@ -4,10 +4,11 @@ export default class Input extends Component {
     constructor(props)
     {
         super(props);
+        this.triggerRerender = this.triggerRerender.bind(this);
     }
-    componentDidMount()
+    triggerRerender()
     {
-        console.log("Input field ready!")
+        this.props.onKeyUp();
     }
     render() {
 
@@ -15,7 +16,12 @@ export default class Input extends Component {
 
         if(this.props.error.length)
         {
-            error = "<span className='error'>{this.props.error[0]}</span>";
+            $('.tweet-your-team').addClass('movedown');
+            error = <span className='error'><br/>{this.props.error[0]}</span>;
+        }
+        else
+        {
+            $('.tweet-your-team').removeClass('movedown');
         }
 
         return (
@@ -24,10 +30,23 @@ export default class Input extends Component {
                    team <strong>#red</strong> or team <strong>#blue</strong>?
                 </h1>
                 <p className="match-history">
-                    Based on {this.props.matches} matches
+                    Based on
+                    <select name="matches" id="matches" defaultValue={this.props.matches} onChange={this.triggerRerender}>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                    </select> matches
                     {error}
                 </p>
-                <input type="text" placeholder="Enter your Summoner name" {...this.props}/>
+                <div className="input-group">
+                    <input type="text" placeholder="Enter your Summoner name" {...this.props}/>
+                    <select name="region" id="region" defaultValue="euw">
+                        <option value="euw">EUW</option>
+                        <option value="na">NA</option>
+                        <option value="jp">JP</option>
+                        <option value="br">BR</option>
+                    </select>
+                </div>
             </div>
         );
     };

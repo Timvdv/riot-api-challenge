@@ -49,7 +49,7 @@ export default class Data extends Component {
         var el = ReactDOM.findDOMNode(this);
 
         var $team_red = $(el).find('.red'),
-            $team_blue = $(el).find('.blue');
+               $team_blue = $(el).find('.blue');
 
         destroy($team_red[0]);
         destroy($team_blue[0]);
@@ -108,7 +108,7 @@ function update(el, state)
         var scales = calcScales(el, state.domain);
         destroy(el);
         drawPoints(el, scales, state.data);
-    }, 500);
+    }, 1500);
 }
 
 function destroy(el) {
